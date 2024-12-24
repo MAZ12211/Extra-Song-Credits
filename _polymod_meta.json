@@ -1,0 +1,7 @@
+{
+  "title": "SGRC",
+  "description": "A SilvaGunner tool/mod to ease the process of crediting song rippers. Meant for FNF base game engine.",
+  "api_version": "0.5.3",
+  "mod_version": "1.0.0",
+  "license": "Apache-2.0"
+}
