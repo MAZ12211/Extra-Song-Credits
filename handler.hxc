@@ -1,0 +1,69 @@
+import funkin.modding.module.Module;
+import funkin.play.PauseSubState;
+import flixel.FlxG;
+import Std;
+import flixel.text.FlxText;
+import flixel.tweens.FlxEase;
+import flixel.tweens.FlxTween;
+import funkin.play.PlayState;
+import funkin.Paths;
+import funkin.Assets;
+import haxe.Json;
+import funkin.modding.module.ModuleHandler;
+import funkin.util.ReflectUtil;
+import funkin.util.SortUtil;
+import flixel.util.FlxSort;
+
+class ExtraSongCredits extends Module {
+    public var jsonPath = Paths.json("extraSongCredits");
+    public var jsonData; // Shortcut for Json.parse(Assets.getText(jsonPath))
+    public var songsArray:Array;
+    public var offsetNum:Float = 32; // This is just for better spacing
+
+	public var creditEntry:FlxText;
+
+    public function new() {
+        super("ExtraSongCredits", 1);
+    }
+
+    override function onSubStateOpenBegin(event) {
+        var state = event.targetState;
+
+        if (Std.isOfType(state, PauseSubState)) {
+            if (PlayState.instance != null && Assets.exists(jsonPath) && PlayState.instance.currentChart != null) {
+                jsonData = Json.parse(Assets.getText(jsonPath));
+                songsArray = jsonData.songs;
+
+                state.openCallback = function() {
+                    if (songsArray != null) {
+                        for (song in songsArray) {
+                            if (song.songName == PlayState.instance.currentChart.songName || song.songName == PlayState.instance.currentSong.id) {
+                                var startDelay = 0.7;
+								
+								if (ReflectUtil.hasAnonymousField(song, "credits" /*Will check if there's a credits field in a song the json file*/)) {
+									var yPos = state.metadataPractice.y + 32 + offsetNum;
+									var customEntries = ReflectUtil.getAnonymousFieldsOf(song.credits); // gets all objects in the credits array 
+                                    customEntries.sort(SortUtil.alphabetically); // Not the best way, but it's better than random orders
+									for (i in 0...customEntries.length) {
+										var customEntry = customEntries[i];
+										// the text stuff is taken from source code, right down to the tween animation and the delay that's accurate to base game
+										creditEntry = new FlxText(20, yPos, FlxG.width - 40);
+										creditEntry.text = customEntry + ": " + ReflectUtil.getAnonymousField(song.credits, customEntry);
+										creditEntry.scrollFactor.set(0, 0);
+										creditEntry.setFormat(Paths.font("vcr.ttf"), 32, 0xFFffffff, "right");
+										FlxTween.tween(creditEntry, {y: creditEntry.y + 5}, 1.8, {ease: FlxEase.quartOut, startDelay: startDelay});
+										state.insert(state.members.indexOf(state.background) + 1, creditEntry); // so the text isn't in front of the pause menu buttons
+										yPos += 32;
+										startDelay += 0.1;
+									}
+								}
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        super.onSubStateOpenBegin(event);
+    }
+}

@@ -1,0 +1,16 @@
+{
+  "songs": [
+    {
+      "songName": "Darnell",
+      "credits": {
+      "Code": "guy1", "background": "guy2"
+      }
+    },
+    {
+      "songName": "Darnell (BF Mix)",
+      "credits": {
+      "Art": "guy3", "Animation": "guy4"
+      }
+    }
+  ]
+}

@@ -1,4 +1,0 @@
-.LOG
-2:52 PM 12/24/2024
-I wanted to create this to avoid making a big if/else statement block that changes the ripper's name across several rips. I thought it would have been easier and more effective to use a JSON file for it where it uses two properties, which are songName and the song ripper(s).
-It uses the in-game song title instead of the ID of the song, so it accounts for variations of the same song (i.e., Pico mixes).
