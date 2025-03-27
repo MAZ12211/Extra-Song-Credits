@@ -1,6 +1,6 @@
 # Extra Song Credits
 
-This mod allows you to credit contributors of a song in base game's the pause menu with ease!
+This mod allows you to credit more contributors of a song in base game's the pause menu with ease!
 
 ## How To Use
 
