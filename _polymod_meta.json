@@ -1,8 +1,8 @@
 {
   "title": "Extra Song Credits",
   "description": "If you want to add more credits in the pause menu such as visual artist, coder, then this mod is for you.",
-  "api_version": "0.5.3",
-  "mod_version": "1.0.0",
+  "api_version": "0.6.4",
+  "mod_version": "1.0.1",
   "contributors": [
     {"name": "MAZ12211", "role": "Coded everything"},
     {"name": "Funkin's discussions page", "role": "Major code help", "url": "https://github.com/FunkinCrew/Funkin/discussions"}
