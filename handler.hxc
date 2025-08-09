@@ -13,6 +13,7 @@ import funkin.modding.module.ModuleHandler;
 import funkin.util.ReflectUtil;
 import funkin.util.SortUtil;
 import flixel.util.FlxSort;
+import funkin.ui.FullScreenScaleMode;
 
 class ExtraSongCredits extends Module {
     public var jsonPath = Paths.json("extraSongCredits");
@@ -42,18 +43,21 @@ class ExtraSongCredits extends Module {
 								
 								if (ReflectUtil.hasAnonymousField(song, "credits" /*Will check if there's a credits field in a song the json file*/)) {
 									var yPos = state.metadataPractice.y + 32 + offsetNum;
+                                    var mobileYpos = 15;
 									var customEntries = ReflectUtil.getAnonymousFieldsOf(song.credits); // gets all objects in the credits array 
                                     customEntries.sort(SortUtil.alphabetically); // Not the best way, but it's better than random orders
 									for (i in 0...customEntries.length) {
 										var customEntry = customEntries[i];
 										// the text stuff is taken from source code, right down to the tween animation and the delay that's accurate to base game
-										creditEntry = new FlxText(20, yPos, FlxG.width - 40);
+										creditEntry = new FlxText(20, (FlxG.onMobile ? mobileYpos : yPos), FlxG.camera.width - Math.max(40, FullScreenScaleMode.gameNotchSize.x));
 										creditEntry.text = customEntry + ": " + ReflectUtil.getAnonymousField(song.credits, customEntry);
 										creditEntry.scrollFactor.set(0, 0);
 										creditEntry.setFormat(Paths.font("vcr.ttf"), 32, 0xFFffffff, "right");
-										FlxTween.tween(creditEntry, {y: creditEntry.y + 5}, 1.8, {ease: FlxEase.quartOut, startDelay: startDelay});
-										state.insert(state.members.indexOf(state.background) + 1, creditEntry); // so the text isn't in front of the pause menu buttons
+                                        state.insert(state.members.indexOf(state.background) + 1, creditEntry); // so the text isn't in front of the pause menu buttons
+                                        creditEntry.alpha = 0;
+										FlxTween.tween(creditEntry, {alpha: 1, y: creditEntry.y + (FlxG.onMobile ? -5 : 5)}, 1.8, {ease: FlxEase.quartOut, startDelay: startDelay});
 										yPos += 32;
+                                        mobileYpos += 32;
 										startDelay += 0.1;
 									}
 								}
