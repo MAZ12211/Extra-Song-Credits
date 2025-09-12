@@ -22,9 +22,10 @@ class ExtraSongCredits extends Module {
     public var offsetNum:Float = 32; // This is just for better spacing
 
 	public var creditEntry:FlxText;
+    public var creditEntriesArray:Array<FlxText> = [];
 
     public function new() {
-        super("ExtraSongCredits", 1);
+        super("extraSongCredits", 1);
     }
 
     override function onSubStateOpenBegin(event) {
@@ -53,6 +54,7 @@ class ExtraSongCredits extends Module {
 										creditEntry.text = customEntry + ": " + ReflectUtil.getAnonymousField(song.credits, customEntry);
 										creditEntry.scrollFactor.set(0, 0);
 										creditEntry.setFormat(Paths.font("vcr.ttf"), 32, 0xFFffffff, "right");
+                                        creditEntriesArray.push(creditEntry);
                                         state.insert(state.members.indexOf(state.background) + 1, creditEntry); // so the text isn't in front of the pause menu buttons
                                         creditEntry.alpha = 0;
 										FlxTween.tween(creditEntry, {alpha: 1, y: creditEntry.y + (FlxG.onMobile ? -5 : 5)}, 1.8, {ease: FlxEase.quartOut, startDelay: startDelay});
