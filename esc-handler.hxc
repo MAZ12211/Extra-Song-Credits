@@ -20,6 +20,7 @@ class ExtraSongCredits extends Module {
     public var jsonData; // Shortcut for Json.parse(Assets.getText(jsonPath))
     public var songsArray:Array;
     public var offsetNum:Float = 32; // This is just for better spacing
+    public static var textSize:Int = 32;
 
 	public var creditEntry:FlxText;
     public var creditEntriesArray:Array<FlxText> = [];
@@ -53,7 +54,7 @@ class ExtraSongCredits extends Module {
 										creditEntry = new FlxText(20, (FlxG.onMobile ? mobileYpos : yPos), FlxG.camera.width - Math.max(40, FullScreenScaleMode.gameNotchSize.x));
 										creditEntry.text = customEntry + ": " + ReflectUtil.getAnonymousField(song.credits, customEntry);
 										creditEntry.scrollFactor.set(0, 0);
-										creditEntry.setFormat(Paths.font("vcr.ttf"), 32, 0xFFffffff, "right");
+										creditEntry.setFormat(Paths.font("vcr.ttf"), textSize, 0xFFffffff, "right");
                                         creditEntriesArray.push(creditEntry);
                                         state.insert(state.members.indexOf(state.background) + 1, creditEntry); // so the text isn't in front of the pause menu buttons
                                         creditEntry.alpha = 0;
